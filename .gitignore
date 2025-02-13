@@ -1,0 +1,7 @@
+vendor/
+node_modules/
+.env
+docker/php/.env
+docker/mysql/
+docker/nginx/
+storage/
