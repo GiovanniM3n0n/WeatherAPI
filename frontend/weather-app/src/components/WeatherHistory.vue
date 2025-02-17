@@ -1,70 +1,149 @@
 <template>
-    <div class="history-container">
-      <h2>Histórico de Pesquisas</h2>
-      <ul>
-        <li v-for="(item, index) in limitedHistory" :key="index" class="history-item">
-          <span class="city">{{ item.city }}</span>
-          <span class="details">{{ item.temperature }}°C - {{ item.weather_description }}</span>
-        </li>
-      </ul>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      history: {
-        type: Array,
-        required: true,
-      },
+  <div class="history-container">
+    <h2 class="history-title">Histórico de Pesquisas</h2>
+    <transition-group name="list" tag="ul" class="history-list">
+      <li v-for="(item, index) in limitedHistory" :key="index" class="history-item">
+        <div class="history-item-content">
+          <WeatherIcon :condition="item.weather_description" class="history-icon" />
+          <div class="history-details">
+            <span class="history-city">{{ item.city }}</span>
+            <span class="history-temp">{{ item.temperature }}°C</span>
+          </div>
+        </div>
+        <span class="history-description">{{ item.weather_description }}</span>
+      </li>
+    </transition-group>
+  </div>
+</template>
+
+<script>
+import { computed } from "vue";
+import WeatherIcon from "@/components/WeatherIcon.vue";
+
+export default {
+  components: {
+    WeatherIcon,
+  },
+  props: {
+    history: {
+      type: Array,
+      required: true,
     },
-    computed: {
-      limitedHistory() {
-        return this.history.slice(0, 10); 
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .history-container {
-    margin-top: 20px;
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  
+  },
+  setup(props) {
+    const limitedHistory = computed(() => props.history.slice(0, 5));
+
+    return { limitedHistory };
+  },
+};
+</script>
+
+<style scoped>
+.history-container {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.history-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.history-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.history-item-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.history-icon {
+  font-size: 1.8rem;
+}
+
+.history-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-city {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.history-temp {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.history-description {
+  color: #7f8c8d;
+  font-style: italic;
+  text-align: right;
+  flex-grow: 1;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.dark-mode .history-title {
+  color: #ecf0f1;
+}
+
+.dark-mode .history-item {
+  background-color: #34495e;
+}
+
+.dark-mode .history-city {
+  color: #ecf0f1;
+}
+
+.dark-mode .history-temp,
+.dark-mode .history-description {
+  color: #bdc3c7;
+}
+
+@media (max-width: 768px) {
   .history-item {
-    background-color: var(--card-background);
-    color: var(--text-color);
-    margin: 10px 0;
-    padding: 12px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .history-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  .history-description {
+    margin-top: 0.5rem;
+    text-align: left;
   }
-  
-  .city {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .details {
-    color: #666;
-    font-size: 0.9em;
-  }
-  </style>
-  
+}
+</style>
