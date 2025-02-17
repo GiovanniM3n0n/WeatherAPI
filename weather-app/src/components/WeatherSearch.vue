@@ -61,12 +61,10 @@ export default {
 
     onMounted(() => {
       document.addEventListener("keydown", handleKeydown);
-      document.addEventListener("click", handleClickOutside);
     });
 
     onUnmounted(() => {
       document.removeEventListener("keydown", handleKeydown);
-      document.removeEventListener("click", handleClickOutside);
     });
 
     const fetchSuggestions = async () => {
@@ -156,8 +154,8 @@ export default {
   margin: 0 auto;
   padding: 20px;
   background-color: var(--background-color);
-  color: var(--text-color);
   position: relative;
+  color: black;
 }
 
 .search-box {
@@ -225,6 +223,8 @@ export default {
   display: flex;
   align-items: center;
   font-size: 1rem;
+  color: var(--suggestions-text);
+
 }
 
 .suggestion-item.active {

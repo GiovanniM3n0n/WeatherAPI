@@ -51,13 +51,13 @@ export default {
 
 <style scoped>
 .weather-card {
-  background-color: #ffffff;
+  background-color: var(--color-background-soft);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--vt-c-shadow-light);
   transition: transform 0.3s, box-shadow 0.3s;
   width: 300px;
-  height: 400px; 
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -66,7 +66,7 @@ export default {
 
 .weather-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--vt-c-shadow-dark);
 }
 
 .weather-card-header {
@@ -78,12 +78,12 @@ export default {
 
 .weather-city {
   font-size: 1.5rem;
-  color: #2c3e50;
+  color: var(--color-heading);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 70%; 
+  max-width: 70%;
 }
 
 .weather-icon {
@@ -99,13 +99,13 @@ export default {
 .weather-temp {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #3498db;
+  color: var(--vt-c-indigo);
   margin: 0.5rem 0;
 }
 
 .weather-description {
   font-size: 1.1rem;
-  color: #7f8c8d;
+  color: var(--color-text);
   text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
@@ -119,7 +119,7 @@ export default {
 }
 
 .weather-detail {
-  background-color: #f8f9fa;
+  background-color: var(--color-background-mute);
   border-radius: 8px;
   padding: 0.75rem;
   display: flex;
@@ -129,7 +129,7 @@ export default {
 }
 
 .weather-detail:hover {
-  background-color: #e9ecef;
+  background-color: var(--color-border-hover);
 }
 
 .detail-icon {
@@ -139,7 +139,7 @@ export default {
 
 .detail-label {
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: var(--color-text);
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -149,35 +149,42 @@ export default {
 .detail-value {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #2c3e50;
+  color: var(--color-heading);
 }
 
-.dark-mode .weather-card {
-  background-color: #2c3e50;
-}
+@media (prefers-color-scheme: dark) {
+  .weather-card {
+    background-color: var(--vt-c-black-soft);
+    box-shadow: var(--vt-c-shadow-dark);
+  }
 
-.dark-mode .weather-city {
-  color: #ecf0f1;
-}
+  .weather-city {
+    color: var(--vt-c-text-dark-1);
+  }
 
-.dark-mode .weather-temp {
-  color: #3498db;
-}
+  .weather-temp {
+    color: var(--vt-c-indigo);
+  }
 
-.dark-mode .weather-description {
-  color: #bdc3c7;
-}
+  .weather-description {
+    color: var(--vt-c-text-dark-2);
+  }
 
-.dark-mode .weather-detail {
-  background-color: #34495e;
-}
+  .weather-detail {
+    background-color: var(--vt-c-black-mute);
+  }
 
-.dark-mode .detail-label {
-  color: #bdc3c7;
-}
+  .weather-detail:hover {
+    background-color: var(--vt-c-divider-dark-1);
+  }
 
-.dark-mode .detail-value {
-  color: #ecf0f1;
+  .detail-label {
+    color: var(--vt-c-text-dark-2);
+  }
+
+  .detail-value {
+    color: var(--vt-c-text-dark-1);
+  }
 }
 
 @media (max-width: 768px) {
