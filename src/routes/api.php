@@ -6,7 +6,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
-$apiKey = "11a21a0613eb7485f911d68b0aee3310";
+$apiKey = "SUA_API_KEY_AQUI";
 
 function fetchWeatherData($url) {
     $response = @file_get_contents($url);
