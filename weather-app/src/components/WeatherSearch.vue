@@ -9,6 +9,7 @@
         @keydown.enter="handleEnter"
         @keydown.down.prevent="moveDown"
         @keydown.up.prevent="moveUp"
+        @keydown.esc="clearSuggestions"
       />
       <button @click="searchWeather" class="search-button">
         🔍 Buscar
@@ -34,7 +35,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { fetchWeather, fetchCitySuggestions } from "@/services/apiService";
 
 export default {
@@ -45,9 +46,32 @@ export default {
     const errorMessage = ref("");
     const suggestions = ref([]);
     const activeIndex = ref(-1);
+    const searchContainer = ref(null);
+
+    const clearSuggestions = () => {
+      suggestions.value = [];
+      activeIndex.value = -1;
+    };
+
+    const handleKeydown = (event) => {
+      if (event.key === "Escape") {
+        clearSuggestions();
+      }
+    };
+
+    onMounted(() => {
+      document.addEventListener("keydown", handleKeydown);
+      document.addEventListener("click", handleClickOutside);
+    });
+
+    onUnmounted(() => {
+      document.removeEventListener("keydown", handleKeydown);
+      document.removeEventListener("click", handleClickOutside);
+    });
 
     const fetchSuggestions = async () => {
       if (city.value.trim().length < 1) {
+        clearSuggestions();
         return;
       }
 
@@ -66,7 +90,7 @@ export default {
 
     const selectSuggestion = (suggestion) => {
       city.value = suggestion.name;
-      suggestions.value = [];
+      clearSuggestions();
       searchWeather();
     };
 
@@ -107,11 +131,24 @@ export default {
       }
     };
 
-    return { city, weather, errorMessage, suggestions, activeIndex, fetchSuggestions, selectSuggestion, moveDown, moveUp, handleEnter, searchWeather };
+    return {
+      city,
+      weather,
+      errorMessage,
+      suggestions,
+      activeIndex,
+      searchContainer,
+      fetchSuggestions,
+      selectSuggestion,
+      moveDown,
+      moveUp,
+      handleEnter,
+      searchWeather,
+      clearSuggestions,
+    };
   },
 };
 </script>
-
 
 <style scoped>
 .search-container {
